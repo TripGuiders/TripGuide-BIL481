@@ -7,47 +7,52 @@ import java.util.List;
 @Table(name = "places")
 public class Place {
 
-    @Id
+    
+
+
+    
+    @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @Column(nullable = false)
     private String name;
-
+    
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
-
+    
     @Column(nullable = false)
     private String category; // şehir merkezi, turistik, müze, eğlence parkı
-
+    
     private String description;
-
+    
     @Column(nullable = false)
     private Double rating = 0.0;
-
+    
     @Column(name = "visit_duration") // dakika cinsinden
     private Integer visitDuration;
-
+    
     @Column(name = "opening_time")
     private String openingTime;
-
+    
     @Column(name = "closing_time")
     private String closingTime;
-
+    
     private String address;
-
+    
     @Column(name = "image_url")
     private String imageUrl;
-
+    
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlanItem> planItems;
-
+    
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Review> reviews;
-
+    
     // Constructors
     public Place() {}
+    
 
     public Place(String name, City city, String category, String description, Integer visitDuration) {
         this.name = name;
@@ -56,7 +61,6 @@ public class Place {
         this.description = description;
         this.visitDuration = visitDuration;
     }
-
     // Getters and Setters
     public Long getId() {
         return id;
