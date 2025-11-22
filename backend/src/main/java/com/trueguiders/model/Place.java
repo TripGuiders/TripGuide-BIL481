@@ -6,7 +6,6 @@ import java.util.List;
 @Entity
 @Table(name = "places")
 public class Place {
-<<<<<<< HEAD
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
