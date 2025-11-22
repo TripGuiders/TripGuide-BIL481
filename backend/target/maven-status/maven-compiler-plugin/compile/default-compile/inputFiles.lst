@@ -1,0 +1,14 @@
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/TrueguidersApplication.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/config/WebConfig.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/controller/CityController.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/controller/UserController.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/dto/UserRequest.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/dto/UserResponse.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/exception/CustomExceptionHandler.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/model/City.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/model/User.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/repository/CityRepository.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/repository/UserRepository.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/CityService.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/UserService.java
+/Users/saadetcansubaktiroglu/Desktop/BIL481/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/impl/UserServiceImpl.java
