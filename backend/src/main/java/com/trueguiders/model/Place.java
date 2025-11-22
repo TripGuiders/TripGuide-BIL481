@@ -6,6 +6,10 @@ import java.util.List;
 @Entity
 @Table(name = "places")
 public class Place {
+
+    
+
+
     
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +53,7 @@ public class Place {
     // Constructors
     public Place() {}
     
+
     public Place(String name, City city, String category, String description, Integer visitDuration) {
         this.name = name;
         this.city = city;
@@ -56,108 +61,107 @@ public class Place {
         this.description = description;
         this.visitDuration = visitDuration;
     }
-    
     // Getters and Setters
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public City getCity() {
         return city;
     }
-    
+
     public void setCity(City city) {
         this.city = city;
     }
-    
+
     public String getCategory() {
         return category;
     }
-    
+
     public void setCategory(String category) {
         this.category = category;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public Double getRating() {
         return rating;
     }
-    
+
     public void setRating(Double rating) {
         this.rating = rating;
     }
-    
+
     public Integer getVisitDuration() {
         return visitDuration;
     }
-    
+
     public void setVisitDuration(Integer visitDuration) {
         this.visitDuration = visitDuration;
     }
-    
+
     public String getOpeningTime() {
         return openingTime;
     }
-    
+
     public void setOpeningTime(String openingTime) {
         this.openingTime = openingTime;
     }
-    
+
     public String getClosingTime() {
         return closingTime;
     }
-    
+
     public void setClosingTime(String closingTime) {
         this.closingTime = closingTime;
     }
-    
+
     public String getAddress() {
         return address;
     }
-    
+
     public void setAddress(String address) {
         this.address = address;
     }
-    
+
     public String getImageUrl() {
         return imageUrl;
     }
-    
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
+
     public List<PlanItem> getPlanItems() {
         return planItems;
     }
-    
+
     public void setPlanItems(List<PlanItem> planItems) {
         this.planItems = planItems;
     }
-    
+
     public List<Review> getReviews() {
         return reviews;
     }
-    
+
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
