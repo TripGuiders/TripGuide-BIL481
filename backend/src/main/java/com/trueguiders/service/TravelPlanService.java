@@ -26,9 +26,6 @@ public class TravelPlanService {
     @Autowired
     private PlanItemRepository planItemRepository;
     
-    @Autowired
-    private NotificationService notificationService;
-    
     /**
      * Kullanıcı için yeni bir seyahat planı oluşturur
      */
@@ -63,13 +60,7 @@ public class TravelPlanService {
             travelPlan, allPlaces, request.getDays()
         );
         
-        // 6. Bildirim gönder
-        notificationService.sendNotification(
-            user.getId(), 
-            String.format("%s için %d günlük gezi planınız hazır!", city.getName(), request.getDays())
-        );
-        
-        // 7. Response oluştur
+        // 6. Response oluştur
         return new TravelPlanResponse(
             travelPlan.getId(),
             city.getName(),
