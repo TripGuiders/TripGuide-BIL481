@@ -26,9 +26,6 @@ public class TravelPlanService {
     @Autowired
     private PlanItemRepository planItemRepository;
     
-    @Autowired
-    private NotificationService notificationService;
-    
     /**
      * Kullanıcı için yeni bir seyahat planı oluşturur
      */
@@ -38,9 +35,9 @@ public class TravelPlanService {
         City city = cityRepository.findByNameIgnoreCase(request.getCity())
                 .orElseThrow(() -> new RuntimeException("Şehir bulunamadı: " + request.getCity()));
         
-        // 2. Kullanıcı için geçici bir User objesi oluştur (veya mevcut kullanıcıyı getir)
+        // 2. Kullanıcıyı bul (eğer userId null ise demo user kullan)
         User user = new User();
-        user.setId(userId != null ? userId : 1L); // Demo için default user
+        user.setId(userId != null ? userId : 1L);
         
         // 3. TravelPlan oluştur
         TravelPlan travelPlan = new TravelPlan();
@@ -63,13 +60,7 @@ public class TravelPlanService {
             travelPlan, allPlaces, request.getDays()
         );
         
-        // 6. Bildirim gönder
-        notificationService.sendNotification(
-            user.getId(), 
-            String.format("%s için %d günlük gezi planınız hazır!", city.getName(), request.getDays())
-        );
-        
-        // 7. Response oluştur
+        // 6. Response oluştur
         return new TravelPlanResponse(
             travelPlan.getId(),
             city.getName(),
