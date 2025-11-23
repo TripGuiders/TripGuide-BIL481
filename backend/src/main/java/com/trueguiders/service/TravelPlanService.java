@@ -15,38 +15,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class TravelPlanService {
-<<<<<<< Updated upstream
-    
-    @Autowired
-    private TravelPlanRepository travelPlanRepository;
-    
-    @Autowired
-    private CityRepository cityRepository;
-    
-    @Autowired
-    private PlaceRepository placeRepository;
-    
-    @Autowired
-    private PlanItemRepository planItemRepository;
-    
-    @Autowired
-    private NotificationService notificationService;
-    
-    /**
-     * Kullanıcı için yeni bir seyahat planı oluşturur
-     */
-    @Transactional
-    public TravelPlanResponse createTravelPlan(TravelPlanRequest request, Long userId) {
-        // 1. Şehri bul
-        City city = cityRepository.findByNameIgnoreCase(request.getCity())
-                .orElseThrow(() -> new RuntimeException("Şehir bulunamadı: " + request.getCity()));
-        
-        // 2. Kullanıcı için geçici bir User objesi oluştur (veya mevcut kullanıcıyı getir)
-        User user = new User();
-        user.setId(userId != null ? userId : 1L); // Demo için default user
-        
-        // 3. TravelPlan oluştur
-=======
 
     @Autowired private TravelPlanRepository travelPlanRepository;
     @Autowired private CityRepository cityRepository;
@@ -72,7 +40,6 @@ public class TravelPlanService {
         int days = (request.getDays() != null && request.getDays() > 0) ? request.getDays() : 1;
 
         // 4. TravelPlan Kaydı Oluştur
->>>>>>> Stashed changes
         TravelPlan travelPlan = new TravelPlan();
         travelPlan.setUser(user);
         travelPlan.setCity(city);
@@ -92,21 +59,6 @@ public class TravelPlanService {
 
         // 5. Mekanları Getir (En yüksek puanlılar)
         List<Place> allPlaces = placeRepository.findTopRatedPlacesByCity(city.getId());
-<<<<<<< Updated upstream
-        
-        // 5. Günlük itineraryyi oluştur
-        Map<Integer, List<ActivityDTO>> dailyItinerary = generateDailyItinerary(
-            travelPlan, allPlaces, request.getDays()
-        );
-        
-        // 6. Bildirim gönder
-        notificationService.sendNotification(
-            user.getId(), 
-            String.format("%s için %d günlük gezi planınız hazır!", city.getName(), request.getDays())
-        );
-        
-        // 7. Response oluştur
-=======
         if (allPlaces.isEmpty()) {
             allPlaces = placeRepository.findByCityId(city.getId());
         }
@@ -114,7 +66,6 @@ public class TravelPlanService {
         // 6. Günlük Planı Oluştur
         Map<Integer, List<ActivityDTO>> itinerary = generateDailyItinerary(travelPlan, allPlaces, days);
 
->>>>>>> Stashed changes
         return new TravelPlanResponse(
                 travelPlan.getId(),
                 city.getName(),

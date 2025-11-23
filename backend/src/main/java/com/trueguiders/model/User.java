@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 package com.trueguiders.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -71,4 +69,3 @@ public class User {
     public List<Review> getReviews() { return reviews; }
     public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 }
->>>>>>> Stashed changes
