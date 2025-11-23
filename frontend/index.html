@@ -274,6 +274,15 @@
             padding: 30px;
             box-shadow: var(--shadow);
         }
+
+        .day-content-item {
+            display: none; /* Hepsini gizle */
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .day-content-item.active {
+            display: block; /* Sadece aktif olanı göster */
+        }       
         
         .activity {
             display: flex;
@@ -511,6 +520,8 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 14px;
         }
+
+        
         
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -544,6 +555,51 @@
                 flex-direction: column;
             }
         }
+
+        /* --- Yorum Yap Modalı (Popup) --- */
+        .modal {
+            display: none; /* Varsayılan olarak gizli */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5); /* Arka planı karart */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .close-btn:hover { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -595,18 +651,14 @@
                                 <option value="Miami">Miami</option>
                             </select>
                         </div>
+                        
                         <div class="form-group">
                             <label for="days">Kalış Süresi (Gün)</label>
                             <select id="days" class="form-control" required>
                                 <option value="" disabled selected>Gün sayısı seçin</option>
-                                <option value="1">1 Gün</option>
-                                <option value="2">2 Gün</option>
-                                <option value="3">3 Gün</option>
-                                <option value="4">4 Gün</option>
-                                <option value="5">5 Gün</option>
-                                <option value="7">7 Gün</option> 
-                                <option value="14">14 Gün</option>
-                                <option value="30">30 Gün</option>
+                                <option value="1">1 Gün (Hızlı Tur)</option>
+                                <option value="2">2 Gün (İdeal)</option>
+                                <option value="3">3 Gün (Detaylı Gezi)</option>
                             </select>
                         </div>
                     </div>
@@ -926,24 +978,196 @@
         </div>
     </footer>
 
+
     <script>
-        // Form submission
-        document.getElementById('tripForm').addEventListener('submit', function(e) {
+        const API_BASE = "http://localhost:8080";
+
+        // 1. ŞEHİRLERİ YÜKLE
+        async function loadCities() {
+            try {
+                const res = await fetch(`${API_BASE}/api/cities`);
+                const cities = await res.json();
+                const select = document.getElementById("city");
+                select.innerHTML = `<option value="" disabled selected>Bir şehir seçin</option>`;
+                cities.forEach(city => {
+                    select.innerHTML += `<option value="${city.id}">${city.name}</option>`;
+                });
+            } catch (err) { console.error("Şehirler yüklenemedi:", err); }
+        }
+        loadCities();
+
+        // 2. FORM GÖNDER VE PLANI BAS
+        document.getElementById('tripForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            const city = document.getElementById('city').value;
-            const days = document.getElementById('days').value;
             
-            if(city && days) {
-                alert(`${city.charAt(0).toUpperCase() + city.slice(1)} için ${days} günlük gezi planınız oluşturuluyor...`);
-                // Burada backend'e istek atılacak ve gerçek veriler alınacak
+            const btn = document.querySelector('.btn');
+            const oldText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Hazırlanıyor...';
+
+            const userId = 1;
+            const citySelect = document.getElementById('city');
+            const days = document.getElementById('days').value;
+
+            const body = {
+                userId: userId,
+                cityId: parseInt(citySelect.value),
+                days: parseInt(days),
+                preferences: ["general"]
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/api/travel-plans`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                btn.innerHTML = oldText;
+
+                if (!res.ok) { alert("Hata: " + await res.text()); return; }
+                const data = await res.json();
+                
+                // Rota oluşturucu fonksiyonu çağır
+                renderItinerary(data, citySelect.options[citySelect.selectedIndex].text);
+                
+                setTimeout(() => {
+                    document.querySelector('.itinerary').scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+
+            } catch (err) { 
+                console.error(err);
+                alert("Sunucu hatası.");
+                btn.innerHTML = oldText;
             }
         });
-        
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+
+        // 3. ROTA GÖRSELLEŞTİRME
+        function renderItinerary(data, cityName) {
+            const container = document.querySelector('.itinerary-container');
+            document.querySelector('.itinerary .section-title').innerText = `Gezi Planınız: ${cityName} (${data.days} Gün)`;
+
+            // --- A) TABLAR ---
+            let tabsHtml = `<div class="day-tabs">`;
+            Object.keys(data.itinerary).forEach((day, index) => {
+                const activeClass = index === 0 ? 'active' : '';
+                tabsHtml += `<div class="day-tab ${activeClass}" id="tab-${day}" onclick="switchDay(${day})">${day}. Gün</div>`;
+            });
+            tabsHtml += `</div>`;
+
+            // --- B) İÇERİKLER ---
+            let contentHtml = `<div class="day-content-wrapper">`;
+            Object.entries(data.itinerary).forEach(([day, activities], index) => {
+                const activeClass = index === 0 ? 'active' : '';
+                
+                contentHtml += `<div class="day-content-item ${activeClass}" id="content-day-${day}">`;
+                
+                if (activities.length === 0) {
+                    contentHtml += `<p style="text-align:center; padding:20px;">Bugün için plan yok.</p>`;
+                } else {
+                    activities.forEach(act => {
+                        contentHtml += `
+                            <div class="activity">
+                                <div class="activity-time">${act.startTime} - ${act.endTime}</div>
+                                <div class="activity-details">
+                                    <div style="display:flex; justify-content:space-between; align-items:start;">
+                                        <h4>${act.placeName} <small style="color:var(--secondary)">(${act.category})</small></h4>
+                                        <button class="btn" style="padding:4px 12px; font-size:12px; background:var(--accent);" 
+                                            onclick="openReviewModal(${act.placeId}, '${act.placeName.replace(/'/g, "\\'")}')">
+                                            <i class="fas fa-star"></i> Puanla
+                                        </button>
+                                    </div>
+                                    <p>${act.description || 'Açıklama yok.'}</p>
+                                    <small style="color:#f39c12; font-weight:bold;">
+                                        <i class="fas fa-star"></i> ${act.rating}
+                                    </small>
+                                </div>
+                            </div>`;
+                    });
+                }
+                contentHtml += `</div>`;
+            });
+            contentHtml += `</div>`;
+
+            container.innerHTML = tabsHtml + contentHtml;
+        }
+
+        // 4. SEKME DEĞİŞTİRME (KESİN ÇÖZÜM)
+        window.switchDay = function(dayNumber) {
+            document.querySelectorAll('.day-tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.day-content-item').forEach(el => el.classList.remove('active'));
+
+            const clickedTab = document.getElementById(`tab-${dayNumber}`);
+            if(clickedTab) clickedTab.classList.add('active');
+
+            const targetContent = document.getElementById(`content-day-${dayNumber}`);
+            if(targetContent) targetContent.classList.add('active');
+        }
+
+        // 5. MODAL İŞLEMLERİ
+        window.openReviewModal = function(placeId, placeName) {
+            document.getElementById('reviewModal').style.display = 'flex';
+            document.getElementById('modalPlaceName').innerText = placeName;
+            document.getElementById('reviewPlaceId').value = placeId;
+        }
+
+        window.closeReviewModal = function() {
+            document.getElementById('reviewModal').style.display = 'none';
+        }
+
+        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
-            this.reset();
+            const body = {
+                userId: 1,
+                placeId: parseInt(document.getElementById('reviewPlaceId').value),
+                rating: parseInt(document.getElementById('reviewRating').value),
+                comment: document.getElementById('reviewComment').value
+            };
+            try {
+                await fetch(`${API_BASE}/api/reviews`, {
+                    method: "POST", 
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(body)
+                });
+                alert("Yorumunuz başarıyla kaydedildi!");
+                closeReviewModal();
+                this.reset();
+            } catch(err) { console.error(err); alert("Hata oluştu."); }
         });
-        
-      
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('reviewModal')) closeReviewModal();
+        }
+    </script>
+
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeReviewModal()">&times;</span>
+            <h3 id="modalPlaceName" style="color:var(--primary); margin-bottom:15px;">Mekan Adı</h3>
+            
+            <form id="reviewForm">
+                <input type="hidden" id="reviewPlaceId">
+                
+                <div class="form-group">
+                    <label>Puanınız</label>
+                    <select id="reviewRating" class="form-control" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 - Harika)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 - Çok İyi)</option>
+                        <option value="3">⭐⭐⭐ (3 - Ortalama)</option>
+                        <option value="2">⭐⭐ (2 - Kötü)</option>
+                        <option value="1">⭐ (1 - Berbat)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Yorumunuz</label>
+                    <textarea id="reviewComment" class="form-control" rows="3" placeholder="Deneyiminizi paylaşın..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn" style="width:100%;">
+                    <i class="fas fa-paper-plane"></i> Yorumu Gönder
+                </button>
+            </form>
+        </div>
+    </div>    
+</body> 
+            

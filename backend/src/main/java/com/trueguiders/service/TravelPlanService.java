@@ -1,6 +1,8 @@
 package com.trueguiders.service;
 
-import com.trueguiders.dto.*;
+import com.trueguiders.dto.ActivityDTO;
+import com.trueguiders.dto.TravelPlanRequest;
+import com.trueguiders.dto.TravelPlanResponse;
 import com.trueguiders.model.*;
 import com.trueguiders.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TravelPlanService {
+<<<<<<< Updated upstream
     
     @Autowired
     private TravelPlanRepository travelPlanRepository;
@@ -43,20 +46,53 @@ public class TravelPlanService {
         user.setId(userId != null ? userId : 1L); // Demo için default user
         
         // 3. TravelPlan oluştur
+=======
+
+    @Autowired private TravelPlanRepository travelPlanRepository;
+    @Autowired private CityRepository cityRepository;
+    @Autowired private PlaceRepository placeRepository;
+    @Autowired private PlanItemRepository planItemRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private NotificationService notificationService;
+
+    @Transactional
+    public TravelPlanResponse createTravelPlan(TravelPlanRequest request) {
+
+        // 1. Kullanıcıyı Bul (Varsa)
+        User user = null;
+        if (request.getUserId() != null) {
+            user = userRepository.findById(request.getUserId()).orElse(null);
+        }
+
+        // 2. Şehri Bul
+        City city = cityRepository.findById(request.getCityId())
+                .orElseThrow(() -> new RuntimeException("Şehir bulunamadı ID: " + request.getCityId()));
+
+        // 3. Gün Sayısını Al (En az 1 gün olsun)
+        int days = (request.getDays() != null && request.getDays() > 0) ? request.getDays() : 1;
+
+        // 4. TravelPlan Kaydı Oluştur
+>>>>>>> Stashed changes
         TravelPlan travelPlan = new TravelPlan();
         travelPlan.setUser(user);
         travelPlan.setCity(city);
-        travelPlan.setDuration(request.getDays());
-        travelPlan.setStartDate(LocalDate.now());
+        travelPlan.setDuration(days);
+        travelPlan.setStartDate(LocalDate.now().plusDays(1)); // Gezi yarın başlıyor varsayalım
         
-        if (request.getPreferences() != null) {
+        if (request.getPreferences() != null && request.getPreferences().length > 0) {
             travelPlan.setPreferences(String.join(",", request.getPreferences()));
+        } else {
+            travelPlan.setPreferences("General");
         }
-        
+
         travelPlan = travelPlanRepository.save(travelPlan);
-        
-        // 4. Şehirdeki mekanları rating'e göre al
+
+        // Plan oluştuktan hemen sonra bildirim servisini çağırıyoruz
+        notificationService.sendPlanCreatedNotification(travelPlan.getUser(), city.getName());
+
+        // 5. Mekanları Getir (En yüksek puanlılar)
         List<Place> allPlaces = placeRepository.findTopRatedPlacesByCity(city.getId());
+<<<<<<< Updated upstream
         
         // 5. Günlük itineraryyi oluştur
         Map<Integer, List<ActivityDTO>> dailyItinerary = generateDailyItinerary(
@@ -70,112 +106,132 @@ public class TravelPlanService {
         );
         
         // 7. Response oluştur
+=======
+        if (allPlaces.isEmpty()) {
+            allPlaces = placeRepository.findByCityId(city.getId());
+        }
+
+        // 6. Günlük Planı Oluştur
+        Map<Integer, List<ActivityDTO>> itinerary = generateDailyItinerary(travelPlan, allPlaces, days);
+
+>>>>>>> Stashed changes
         return new TravelPlanResponse(
-            travelPlan.getId(),
-            city.getName(),
-            request.getDays(),
-            dailyItinerary
+                travelPlan.getId(),
+                city.getName(),
+                days,
+                itinerary
         );
     }
-    
-    /**
-     * Günlük aktivite planını oluşturur
-     */
-    private Map<Integer, List<ActivityDTO>> generateDailyItinerary(
-            TravelPlan travelPlan, List<Place> places, int days) {
-        
+
+    private Map<Integer, List<ActivityDTO>> generateDailyItinerary(TravelPlan travelPlan, List<Place> places, int days) {
+
         Map<Integer, List<ActivityDTO>> itinerary = new LinkedHashMap<>();
-        
-        // Her gün için 4-5 aktivite planla
-        int activitiesPerDay = Math.min(5, places.size() / days);
-        int placeIndex = 0;
-        
+    
+        // 1. LİSTEYİ KARIŞTIR (Her planda farklı sıra gelsin)
+        Collections.shuffle(places); 
+
+        // 2. İTERATOR KULLAN (Kullanılanı bir daha seçmemek için)
+        Iterator<Place> placeIterator = places.iterator();
+
+        // Günde en fazla 3 aktivite
+        int activitiesPerDay = 3; 
+
         for (int day = 1; day <= days; day++) {
             List<ActivityDTO> dailyActivities = new ArrayList<>();
+            int hour = 9; // Sabah 09:00
+
+            for (int i = 0; i < activitiesPerDay; i++) {
             
-            // Sabah 09:00'dan başla
-            int startHour = 9;
-            int orderIndex = 0;
+                // KRİTİK KONTROL: Eğer mekan kalmadıysa dur! (Başa dönmek yok)
+                if (!placeIterator.hasNext()) {
+                    break; 
+                }
+
+                Place place = placeIterator.next();
             
-            for (int i = 0; i < activitiesPerDay && placeIndex < places.size(); i++) {
-                Place place = places.get(placeIndex++);
-                
-                // Ziyaret süresi (varsayılan 2 saat)
-                int duration = (place.getVisitDuration() != null) ? 
-                    place.getVisitDuration() / 60 : 2;
-                
-                String startTime = String.format("%02d:00", startHour);
-                String endTime = String.format("%02d:00", startHour + duration);
-                
-                // ActivityDTO oluştur
-                ActivityDTO activity = new ActivityDTO(
+                // Süre hesapla (yoksa 2 saat ver)
+                int duration = (place.getVisitDuration() != null) ? (place.getVisitDuration() / 60) : 2;
+                if (duration < 1) duration = 1;
+
+                String start = String.format("%02d:00", hour);
+                String end = String.format("%02d:00", hour + duration);
+
+                // DTO oluştur
+                ActivityDTO dto = new ActivityDTO(
                     place.getId(),
                     place.getName(),
                     place.getDescription(),
-                    startTime,
-                    endTime,
+                    start,
+                    end,
                     place.getCategory(),
                     place.getRating()
                 );
-                
-                dailyActivities.add(activity);
-                
-                // PlanItem kaydet
-                PlanItem planItem = new PlanItem(
-                    travelPlan, place, day, startTime, endTime, orderIndex++
-                );
-                planItemRepository.save(planItem);
-                
-                // Sonraki aktivite için saat güncelle (1 saat ara + aktivite süresi)
-                startHour += duration + 1;
-                
-                // Gün sonuna gelindiyse break
-                if (startHour >= 20) break;
+                dailyActivities.add(dto);
+
+                // DB Kaydı
+                planItemRepository.save(new PlanItem(
+                    travelPlan,
+                    place,
+                    day,
+                    start,
+                    end,
+                    i + 1
+                ));
+
+                hour += duration + 1; // 1 saat ara
+                if (hour >= 21) break; // Akşam olduysa günü bitir
             }
-            
-            itinerary.put(day, dailyActivities);
-        }
         
+            // Eğer o gün aktivite varsa listeye ekle
+            if (!dailyActivities.isEmpty()) {
+                itinerary.put(day, dailyActivities);
+            }
+        }
         return itinerary;
     }
-    
-    /**
-     * Kullanıcının tüm planlarını getirir
-     */
-    public List<TravelPlan> getUserPlans(Long userId) {
-        return travelPlanRepository.findByUserId(userId);
+
+    // Kullanıcının Planlarını Getir
+    public List<TravelPlanResponse> getUserPlans(Long userId) {
+        List<TravelPlan> plans = travelPlanRepository.findByUserId(userId);
+        return plans.stream().map(this::convertToResponse).collect(Collectors.toList());
     }
-    
-    /**
-     * Plan detaylarını getirir
-     */
+
+    // Plan Detayı Getir
     public TravelPlanResponse getPlanDetails(Long planId) {
         TravelPlan plan = travelPlanRepository.findById(planId)
-            .orElseThrow(() -> new RuntimeException("Plan bulunamadı"));
+                .orElseThrow(() -> new RuntimeException("Plan bulunamadı"));
         
-        List<PlanItem> items = planItemRepository.findByTravelPlanIdOrderByDayAscOrderIndexAsc(planId);
+        // PlanItem'ları çek ve düzenle...
+        // Basitlik için burada direkt entity'den çeviriyoruz:
+        return convertToResponse(plan);
+    }
+
+    // Yardımcı Metot: Entity -> Response DTO
+    private TravelPlanResponse convertToResponse(TravelPlan plan) {
+        // PlanItemları çekmemiz lazım (Lazy loading hatası almamak için repository'den çekmek daha güvenli)
+        List<PlanItem> items = planItemRepository.findByTravelPlanIdOrderByDayAscOrderIndexAsc(plan.getId());
         
-        // Günlere göre grupla
-        Map<Integer, List<ActivityDTO>> dailyItinerary = items.stream()
-            .collect(Collectors.groupingBy(
-                PlanItem::getDay,
-                LinkedHashMap::new,
-                Collectors.mapping(item -> new ActivityDTO(
-                    item.getPlace().getId(),
-                    item.getPlace().getName(),
-                    item.getPlace().getDescription(),
-                    item.getStartTime(),
-                    item.getEndTime(),
-                    item.getPlace().getCategory(),
-                    item.getPlace().getRating()
-                ), Collectors.toList())
-            ));
-        
+        Map<Integer, List<ActivityDTO>> daily = items.stream().collect(
+                Collectors.groupingBy(
+                        PlanItem::getDay,
+                        LinkedHashMap::new,
+                        Collectors.mapping(item -> new ActivityDTO(
+                                item.getPlace().getId(),
+                                item.getPlace().getName(),
+                                item.getPlace().getDescription(),
+                                item.getStartTime(),
+                                item.getEndTime(),
+                                item.getPlace().getCategory(),
+                                item.getPlace().getRating()
+                        ), Collectors.toList())
+                )
+        );
+
         return new TravelPlanResponse(
-            plan.getId(),
-            plan.getCity().getName(),
-            plan.getDuration(),
-            dailyItinerary
+                plan.getId(),
+                plan.getCity().getName(),
+                plan.getDuration(),
+                daily
         );
     }
 }
