@@ -25,7 +25,9 @@ public class TravelPlanService {
     
     @Autowired
     private PlanItemRepository planItemRepository;
-    
+    @Autowired
+    private RouteOptimizationService routeOptimizationService;
+
     /**
      * Kullanıcı için yeni bir seyahat planı oluşturur
      */
@@ -73,33 +75,42 @@ public class TravelPlanService {
      * Günlük aktivite planını oluşturur
      */
     private Map<Integer, List<ActivityDTO>> generateDailyItinerary(
-            TravelPlan travelPlan, List<Place> places, int days) {
-        
-        Map<Integer, List<ActivityDTO>> itinerary = new LinkedHashMap<>();
-        
-        // Her gün için 4-5 aktivite planla
-        int activitiesPerDay = Math.min(5, places.size() / days);
-        int placeIndex = 0;
-        
-        for (int day = 1; day <= days; day++) {
-            List<ActivityDTO> dailyActivities = new ArrayList<>();
-            
-            // Sabah 09:00'dan başla
-            int startHour = 9;
-            int orderIndex = 0;
-            
-            for (int i = 0; i < activitiesPerDay && placeIndex < places.size(); i++) {
-                Place place = places.get(placeIndex++);
-                
-                // Ziyaret süresi (varsayılan 2 saat)
-                int duration = (place.getVisitDuration() != null) ? 
+        TravelPlan travelPlan, List<Place> places, int days) {
+    
+    Map<Integer, List<ActivityDTO>> itinerary = new LinkedHashMap<>();
+    
+    // Her gün için hedef aktivite sayısı (en fazla 5)
+    int activitiesPerDay = (days > 0) ? Math.min(5, Math.max(1, places.size() / days)) : 5;
+    int placeIndex = 0;
+
+    for (int day = 1; day <= days; day++) {
+        int remaining = places.size() - placeIndex;
+        if (remaining <= 0) break;
+
+        int countToday = Math.min(activitiesPerDay, remaining);
+
+        // Bugünün aday mekanları (rating'e göre zaten sıralanmış listeden alıyoruz)
+        List<Place> todayPlaces = new ArrayList<>(places.subList(placeIndex, placeIndex + countToday));
+
+        // 🔥 A* ile bugünkü rotayı optimize et
+        List<Place> orderedPlaces = routeOptimizationService.optimizeRoute(todayPlaces);
+
+        List<ActivityDTO> dailyActivities = new ArrayList<>();
+
+        // Sabah 09:00'dan başla
+        int startHour = 9;
+        int orderIndex = 0;
+
+        for (Place place : orderedPlaces) {
+            // Ziyaret süresi (varsayılan 2 saat)
+            int duration = (place.getVisitDuration() != null) ?
                     place.getVisitDuration() / 60 : 2;
-                
-                String startTime = String.format("%02d:00", startHour);
-                String endTime = String.format("%02d:00", startHour + duration);
-                
-                // ActivityDTO oluştur
-                ActivityDTO activity = new ActivityDTO(
+
+            String startTime = String.format("%02d:00", startHour);
+            String endTime = String.format("%02d:00", startHour + duration);
+
+            // ActivityDTO oluştur
+            ActivityDTO activity = new ActivityDTO(
                     place.getId(),
                     place.getName(),
                     place.getDescription(),
@@ -107,29 +118,32 @@ public class TravelPlanService {
                     endTime,
                     place.getCategory(),
                     place.getRating()
-                );
-                
-                dailyActivities.add(activity);
-                
-                // PlanItem kaydet
-                PlanItem planItem = new PlanItem(
+            );
+
+            dailyActivities.add(activity);
+
+            // PlanItem kaydet
+            PlanItem planItem = new PlanItem(
                     travelPlan, place, day, startTime, endTime, orderIndex++
-                );
-                planItemRepository.save(planItem);
-                
-                // Sonraki aktivite için saat güncelle (1 saat ara + aktivite süresi)
-                startHour += duration + 1;
-                
-                // Gün sonuna gelindiyse break
-                if (startHour >= 20) break;
-            }
-            
-            itinerary.put(day, dailyActivities);
+            );
+            planItemRepository.save(planItem);
+
+            // Sonraki aktivite için saat güncelle (1 saat ara + aktivite süresi)
+            startHour += duration + 1;
+
+            // Gün sonuna gelindiyse break
+            if (startHour >= 20) break;
         }
-        
-        return itinerary;
+
+        itinerary.put(day, dailyActivities);
+
+        // Bu gün kullandığımız place sayısı kadar ilerle
+        placeIndex += countToday;
     }
-    
+
+    return itinerary;
+    }
+
     /**
      * Kullanıcının tüm planlarını getirir
      */
