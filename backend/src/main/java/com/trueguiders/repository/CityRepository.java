@@ -8,5 +8,9 @@ import java.util.Optional;
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
     Optional<City> findByNameIgnoreCase(String name);
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

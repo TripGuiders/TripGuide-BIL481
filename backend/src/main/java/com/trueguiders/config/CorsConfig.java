@@ -24,6 +24,7 @@ public class CorsConfig {
         return new CorsFilter(source);
     }
 }
+<<<<<<< HEAD
 
 // DataInitializer.java - Başlangıç verilerini yükler
 package com.trueguiders.config;
@@ -92,3 +93,5 @@ public class DataInitializer implements CommandLineRunner {
         return placeRepository.save(place);
     }
 }
+=======
+>>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

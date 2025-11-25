@@ -8,5 +8,9 @@ import java.util.List;
 @Repository
 public interface TravelPlanRepository extends JpaRepository<TravelPlan, Long> {
     List<TravelPlan> findByUserId(Long userId);
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

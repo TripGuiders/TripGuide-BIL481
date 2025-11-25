@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // CityService.java
+=======
+>>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
 package com.trueguiders.service;
 
 import com.trueguiders.model.City;
@@ -24,6 +27,10 @@ public class CityService {
     
     public City getCityById(Long id) {
         return cityRepository.findById(id)
+<<<<<<< HEAD
             .orElseThrow(() -> new RuntimeException("Şehir bulunamadı"));
+=======
+            .orElseThrow(() -> new RuntimeException("Şehir bulunamadı ID: " + id));
+>>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
     }
 }
