@@ -1,10 +1,12 @@
 package com.trueguiders.repository;
 
-import com.trueguiders.model.Place;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+
+import com.trueguiders.model.Place;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Long> {
@@ -13,9 +15,4 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     
     @Query("SELECT p FROM Place p WHERE p.city.id = :cityId ORDER BY p.rating DESC")
     List<Place> findTopRatedPlacesByCity(Long cityId);
-<<<<<<< HEAD
 }
-
-=======
-}
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

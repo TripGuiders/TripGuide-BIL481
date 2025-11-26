@@ -2,9 +2,6 @@ package com.trueguiders.dto;
 
 public class TravelPlanRequest {
 
-<<<<<<< HEAD
-}
-=======
     private Long userId;
     private Long cityId;
     private Integer days; // Artık tarih yok, sadece gün sayısı var
@@ -25,4 +22,3 @@ public class TravelPlanRequest {
     public String[] getPreferences() { return preferences; }
     public void setPreferences(String[] preferences) { this.preferences = preferences; }
 }
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

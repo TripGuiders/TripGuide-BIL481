@@ -1,49 +1,34 @@
 package com.trueguiders.service;
 
-import com.trueguiders.dto.ActivityDTO;
-import com.trueguiders.dto.TravelPlanRequest;
-import com.trueguiders.dto.TravelPlanResponse;
-import com.trueguiders.model.*;
-import com.trueguiders.repository.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.trueguiders.dto.ActivityDTO;
+import com.trueguiders.dto.TravelPlanRequest;
+import com.trueguiders.dto.TravelPlanResponse;
+import com.trueguiders.model.City;
+import com.trueguiders.model.Place;
+import com.trueguiders.model.PlanItem;
+import com.trueguiders.model.TravelPlan;
+import com.trueguiders.model.User;
+import com.trueguiders.repository.CityRepository;
+import com.trueguiders.repository.PlaceRepository;
+import com.trueguiders.repository.PlanItemRepository;
+import com.trueguiders.repository.TravelPlanRepository;
+import com.trueguiders.repository.UserRepository;
 
 @Service
 public class TravelPlanService {
-<<<<<<< HEAD
-    
-    @Autowired
-    private TravelPlanRepository travelPlanRepository;
-    
-    @Autowired
-    private CityRepository cityRepository;
-    
-    @Autowired
-    private PlaceRepository placeRepository;
-    
-    @Autowired
-    private PlanItemRepository planItemRepository;
-    
-    /**
-     * Kullanıcı için yeni bir seyahat planı oluşturur
-     */
-    @Transactional
-    public TravelPlanResponse createTravelPlan(TravelPlanRequest request, Long userId) {
-        // 1. Şehri bul
-        City city = cityRepository.findByNameIgnoreCase(request.getCity())
-                .orElseThrow(() -> new RuntimeException("Şehir bulunamadı: " + request.getCity()));
-        
-        // 2. Kullanıcıyı bul (eğer userId null ise demo user kullan)
-        User user = new User();
-        user.setId(userId != null ? userId : 1L);
-        
-        // 3. TravelPlan oluştur
-=======
 
     @Autowired private TravelPlanRepository travelPlanRepository;
     @Autowired private CityRepository cityRepository;
@@ -69,7 +54,6 @@ public class TravelPlanService {
         int days = (request.getDays() != null && request.getDays() > 0) ? request.getDays() : 1;
 
         // 4. TravelPlan Kaydı Oluştur
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
         TravelPlan travelPlan = new TravelPlan();
         travelPlan.setUser(user);
         travelPlan.setCity(city);
@@ -89,15 +73,6 @@ public class TravelPlanService {
 
         // 5. Mekanları Getir (En yüksek puanlılar)
         List<Place> allPlaces = placeRepository.findTopRatedPlacesByCity(city.getId());
-<<<<<<< HEAD
-        
-        // 5. Günlük itineraryyi oluştur
-        Map<Integer, List<ActivityDTO>> dailyItinerary = generateDailyItinerary(
-            travelPlan, allPlaces, request.getDays()
-        );
-        
-        // 6. Response oluştur
-=======
         if (allPlaces.isEmpty()) {
             allPlaces = placeRepository.findByCityId(city.getId());
         }
@@ -105,7 +80,6 @@ public class TravelPlanService {
         // 6. Günlük Planı Oluştur
         Map<Integer, List<ActivityDTO>> itinerary = generateDailyItinerary(travelPlan, allPlaces, days);
 
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
         return new TravelPlanResponse(
                 travelPlan.getId(),
                 city.getName(),

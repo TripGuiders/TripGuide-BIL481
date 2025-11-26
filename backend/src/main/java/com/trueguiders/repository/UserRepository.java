@@ -1,17 +1,14 @@
 package com.trueguiders.repository;
 
-import com.trueguiders.model.User;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+
+import com.trueguiders.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
-<<<<<<< HEAD
 }
-
-=======
-}
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

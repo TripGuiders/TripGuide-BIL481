@@ -1,9 +1,6 @@
 package com.trueguiders.model;
 
-<<<<<<< HEAD
-=======
 import com.fasterxml.jackson.annotation.JsonIgnore;
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,54 +19,34 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
     
-<<<<<<< HEAD
-=======
-    @JsonIgnore // şifre asla dönmesin!
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
+    @JsonIgnore // Güvenlik: Şifrenin JSON çıktısında dönmesini engeller.
     @Column(nullable = false)
     private String password;
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-<<<<<<< HEAD
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<TravelPlan> travelPlans;
-    
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
-    
-=======
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonIgnore // Sonsuz döngüyü ve gereksiz yüklemeyi engeller
     private List<TravelPlan> travelPlans;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonIgnore // Sonsuz döngüyü ve gereksiz yüklemeyi engeller
     private List<Review> reviews;
 
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-<<<<<<< HEAD
     
     // Constructors
     public User() {}
     
-=======
-
-    public User() {}
-
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
-<<<<<<< HEAD
     
     // Getters and Setters
     public Long getId() {
@@ -96,6 +73,7 @@ public class User {
         this.email = email;
     }
     
+    // Şifre alınabilir, ancak JSON çıktısında görünmez (@JsonIgnore sayesinde)
     public String getPassword() {
         return password;
     }
@@ -112,6 +90,7 @@ public class User {
         this.createdAt = createdAt;
     }
     
+    // travelPlans ve reviews JSON çıktısında görünmez (@JsonIgnore sayesinde)
     public List<TravelPlan> getTravelPlans() {
         return travelPlans;
     }
@@ -128,28 +107,3 @@ public class User {
         this.reviews = reviews;
     }
 }
-=======
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    // password artık JSON’da görünmez (güvenlik için harika)
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-
-    public List<TravelPlan> getTravelPlans() { return travelPlans; }
-    public void setTravelPlans(List<TravelPlan> travelPlans) { this.travelPlans = travelPlans; }
-
-    public List<Review> getReviews() { return reviews; }
-    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
-}
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

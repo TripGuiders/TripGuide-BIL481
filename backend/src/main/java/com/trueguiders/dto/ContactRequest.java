@@ -1,10 +1,7 @@
 package com.trueguiders.dto;
 
 public class ContactRequest {
-<<<<<<< HEAD
 
-}
-=======
     private String name;
     private String email;
     private String subject;
@@ -23,4 +20,3 @@ public class ContactRequest {
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
 }
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432

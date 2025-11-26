@@ -1,14 +1,12 @@
-<<<<<<< HEAD
-// CityService.java
-=======
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
 package com.trueguiders.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.trueguiders.model.City;
 import com.trueguiders.repository.CityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class CityService {
@@ -27,10 +25,6 @@ public class CityService {
     
     public City getCityById(Long id) {
         return cityRepository.findById(id)
-<<<<<<< HEAD
-            .orElseThrow(() -> new RuntimeException("Şehir bulunamadı"));
-=======
             .orElseThrow(() -> new RuntimeException("Şehir bulunamadı ID: " + id));
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
     }
 }

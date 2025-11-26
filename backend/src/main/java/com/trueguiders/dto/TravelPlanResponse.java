@@ -1,9 +1,5 @@
 package com.trueguiders.dto;
 
-<<<<<<< HEAD
-public class TravelPlanResponse {
-
-=======
 import java.util.List;
 import java.util.Map;
 
@@ -26,5 +22,5 @@ public class TravelPlanResponse {
     public String getCityName() { return cityName; }
     public int getDays() { return days; }
     public Map<Integer, List<ActivityDTO>> getItinerary() { return itinerary; }
->>>>>>> 07c2d0dada063e95a870c7217eb438da75f55432
+
 }
