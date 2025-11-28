@@ -1,5 +1,5 @@
 // UserResponse.java
-package com.trueguiders.dto;
+/*package com.trueguiders.dto;
 
 import java.time.LocalDateTime;
 
@@ -28,4 +28,4 @@ public class UserResponse {
     public void setEmail(String email) { this.email = email; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-}
+}*/

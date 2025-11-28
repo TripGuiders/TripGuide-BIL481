@@ -30,6 +30,7 @@
 /Users/saadetcansubaktiroglu/Desktop/TripGuide-BIL481/backend/src/main/java/com/trueguiders/repository/TravelPlanRepository.java
 /Users/saadetcansubaktiroglu/Desktop/TripGuide-BIL481/backend/src/main/java/com/trueguiders/repository/UserRepository.java
 /Users/saadetcansubaktiroglu/Desktop/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/CityService.java
+/Users/saadetcansubaktiroglu/Desktop/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/NotificationService.java
 /Users/saadetcansubaktiroglu/Desktop/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/PlaceService.java
 /Users/saadetcansubaktiroglu/Desktop/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/ReviewService.java
 /Users/saadetcansubaktiroglu/Desktop/TripGuide-BIL481/backend/src/main/java/com/trueguiders/service/RouteOptimizationService.java

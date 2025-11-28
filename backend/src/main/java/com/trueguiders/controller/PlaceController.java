@@ -1,5 +1,5 @@
 // PlaceController.java
-package com.trueguiders.controller;
+/*package com.trueguiders.controller;
 
 import com.trueguiders.model.Place;
 import com.trueguiders.service.PlaceService;
@@ -35,4 +35,4 @@ public class PlaceController {
     public ResponseEntity<List<Place>> getTopRatedPlaces(@PathVariable Long cityId) {
         return ResponseEntity.ok(placeService.getTopRatedPlaces(cityId));
     }
-}
+}*/

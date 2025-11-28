@@ -1,12 +1,10 @@
 com/trueguiders/dto/ActivityDTO.class
 com/trueguiders/service/ReviewService.class
 com/trueguiders/controller/ContactController.class
-com/trueguiders/dto/UserResponse.class
 com/trueguiders/model/Review.class
-com/trueguiders/controller/PlaceController.class
-com/trueguiders/controller/UserController.class
 com/trueguiders/model/Place.class
 com/trueguiders/service/UserService.class
+com/trueguiders/service/RouteOptimizationService$State.class
 com/trueguiders/repository/UserRepository.class
 com/trueguiders/controller/ReviewController.class
 com/trueguiders/model/TravelPlan.class
@@ -17,6 +15,7 @@ com/trueguiders/dto/UserRegistrationRequest.class
 com/trueguiders/repository/CityRepository.class
 com/trueguiders/model/PlanItem.class
 com/trueguiders/TrueguidersApplication.class
+com/trueguiders/service/TravelPlanService.class
 com/trueguiders/dto/TravelPlanRequest.class
 com/trueguiders/service/CityService.class
 com/trueguiders/config/DataInitializer.class

@@ -4,30 +4,22 @@ import java.util.List;
 import java.util.Map;
 
 public class TravelPlanResponse {
+
     private Long planId;
-    private String city;
-    private Integer totalDays;
-    private Map<Integer, List<ActivityDTO>> dailyItinerary; // gün -> aktiviteler
-    
-    // Constructors
-    public TravelPlanResponse() {}
-    
-    public TravelPlanResponse(Long planId, String city, Integer totalDays, Map<Integer, List<ActivityDTO>> dailyItinerary) {
+    private String cityName;
+    private int days;
+    private Map<Integer, List<ActivityDTO>> itinerary;
+
+    public TravelPlanResponse(Long planId, String cityName, int days,
+                              Map<Integer, List<ActivityDTO>> itinerary) {
         this.planId = planId;
-        this.city = city;
-        this.totalDays = totalDays;
-        this.dailyItinerary = dailyItinerary;
+        this.cityName = cityName;
+        this.days = days;
+        this.itinerary = itinerary;
     }
-    
-    // Getters and Setters
+
     public Long getPlanId() { return planId; }
-    public void setPlanId(Long planId) { this.planId = planId; }
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
-    public Integer getTotalDays() { return totalDays; }
-    public void setTotalDays(Integer totalDays) { this.totalDays = totalDays; }
-    public Map<Integer, List<ActivityDTO>> getDailyItinerary() { return dailyItinerary; }
-    public void setDailyItinerary(Map<Integer, List<ActivityDTO>> dailyItinerary) { 
-        this.dailyItinerary = dailyItinerary; 
-    }
+    public String getCityName() { return cityName; }
+    public int getDays() { return days; }
+    public Map<Integer, List<ActivityDTO>> getItinerary() { return itinerary; }
 }
