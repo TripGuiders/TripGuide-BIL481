@@ -13,32 +13,42 @@ import com.trueguiders.repository.UserRepository;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
-    
+
     @Autowired private CityRepository cityRepository;
     @Autowired private PlaceRepository placeRepository;
     @Autowired private UserRepository userRepository;
-    
+
     @Override
     public void run(String... args) throws Exception {
-        // Veri varsa çalışma (Ama User yoksa User ekle)
-        if (cityRepository.count() > 0) {
-            if (userRepository.count() == 0) createUser();
-            System.out.println("Veriler zaten var.");
-            return;
+
+        // 👉 DEV MOD: Her restart’ta demo verilerini sıfırla
+        // (önce place'leri sil, yoksa FK hatası verir)
+        placeRepository.deleteAll();
+        cityRepository.deleteAll();
+
+        if (userRepository.count() == 0) {
+            createUser();
         }
 
-        // 1. Kullanıcı Oluştur
-        createUser();
-        
-        // 2. Şehirleri Oluştur
-        City antalya = createCity("Antalya", "Türkiye", "Turizmin başkenti.");
-        City istanbul = createCity("İstanbul", "Türkiye", "Tarih ve kültür mozaiği.");
-        City izmir = createCity("İzmir", "Türkiye", "Ege'nin incisi.");
-        City kapadokya = createCity("Kapadokya", "Türkiye", "Peri bacaları diyarı."); // Nevşehir yerine Kapadokya yazdık
-        City paris = createCity("Paris", "Fransa", "Aşıklar şehri.");
+        // --------- ŞEHİRLER ---------
+        City antalya    = createCity("Antalya",    "Türkiye", "Turizmin başkenti.");
+        City istanbul   = createCity("İstanbul",   "Türkiye", "Tarih ve kültür mozaiği.");
+        City izmir      = createCity("İzmir",      "Türkiye", "Ege'nin incisi.");
+        City kapadokya  = createCity("Kapadokya",  "Türkiye", "Peri bacaları diyarı.");
+        City paris      = createCity("Paris",      "Fransa",  "Aşıklar şehri.");
 
-        // 3. MEKANLARI EKLE (Her şehir için en az 9-10 tane)
+        City artvin     = createCity("Artvin",     "Türkiye", "Yeşilin bin bir tonunu barındıran doğa cenneti.");
+        City konya      = createCity("Konya",      "Türkiye", "Mevlana'nın şehri, tarihle dolu Anadolu merkezi.");
+        City canakkale  = createCity("Çanakkale",  "Türkiye", "Tarihin en önemli savaşının yaşandığı şehir.");
+        City berlin     = createCity("Berlin",     "Almanya", "Tarihi ve modernliği bir arada sunan başkent.");
+        City kilis      = createCity("Kilis",      "Türkiye", "Tarihi dokusu ve gastronomisiyle ünlü sınır şehri.");
 
+        City bodrum     = createCity("Bodrum",     "Türkiye", "Ege'nin eğlence ve tatil cenneti.");
+        City roma       = createCity("Roma",       "İtalya",  "Antik dünyanın kalbi, tarihin başkenti.");
+        City barselona  = createCity("Barselona",  "İspanya", "Gaudi mimarisi ve sahilleriyle ünlü şehir.");
+        City londra     = createCity("Londra",     "Birleşik Krallık", "Dünyanın en kozmopolit şehirlerinden biri.");
+
+        // --------- MEKANLAR ---------
         // --- ANTALYA ---
         createPlace("Kaleiçi", antalya, "Tarih", "Eski şehir merkezi.", 4.8, 120);
         createPlace("Düden Şelalesi", antalya, "Doğa", "Denize dökülen şelale.", 4.7, 60);
@@ -81,7 +91,7 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("Derinkuyu Yeraltı Şehri", kapadokya, "Tarih", "Derin yeraltı şehri.", 4.7, 90);
         createPlace("Balon Turu", kapadokya, "Eğlence", "Gün doğumu balon keyfi.", 5.0, 180);
 
-         // --- PARİS ---
+        // --- PARİS ---
         createPlace("Eyfel Kulesi", paris, "Manzara", "Paris'in simgesi.", 4.9, 120);
         createPlace("Louvre Müzesi", paris, "Müze", "Mona Lisa'nın evi.", 4.9, 240);
         createPlace("Notre Dame", paris, "Tarih", "Gotik katedral.", 4.7, 60);
@@ -93,19 +103,51 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("Orsay Müzesi", paris, "Müze", "Empresyonist sanat.", 4.8, 120);
         createPlace("Lüksemburg Bahçesi", paris, "Doğa", "Şehir parkı.", 4.6, 60);
 
+        // --- BODRUM ---
+        createPlace("Bodrum Kalesi", bodrum, "Tarih", "Sualtı Arkeoloji Müzesi'ne ev sahipliği yapan tarihi kale.", 4.7, 120);
+        createPlace("Barlar Sokağı", bodrum, "Gezi", "Eğlence ve gece hayatının merkezi.", 4.5, 180);
+        createPlace("Bodrum Marina", bodrum, "Gezi", "Restoranlar ve yat limanı ile ünlü.", 4.6, 90);
+        createPlace("Türkbükü Sahili", bodrum, "Plaj", "Lüks beach clublarıyla ünlü sahil.", 4.7, 180);
+        createPlace("Gümüşlük", bodrum, "Gezi", "Gün batımı ve balık restoranlarıyla ünlü köy.", 4.8, 150);
 
-        System.out.println("Tüm şehirler ve mekanlar yüklendi!");
+        // --- ROMA ---
+        createPlace("Kolezyum", roma, "Tarih", "Roma'nın en ünlü amfitiyatrosu.", 5.0, 120);
+        createPlace("Vatikan Müzeleri", roma, "Müze", "Michelangelo'nun eserlerinin bulunduğu dünya müzesi.", 4.9, 180);
+        createPlace("Piazza Navona", roma, "Gezi", "Barok tarzı meydan.", 4.8, 90);
+        createPlace("Pantheon", roma, "Tarih", "Antik Roma'nın en iyi korunmuş tapınağı.", 4.9, 60);
+        createPlace("Trevi Çeşmesi", roma, "Tarih", "Dilek fıskiyesi olarak bilinen ünlü çeşme.", 4.8, 45);
+
+        // --- BARSELONA ---
+        createPlace("Sagrada Familia", barselona, "Tarih", "Gaudi'nin yarım kalmış şaheseri.", 5.0, 120);
+        createPlace("Park Güell", barselona, "Manzara", "Gaudi'nin renkli parkı.", 4.9, 120);
+        createPlace("La Rambla", barselona, "Gezi", "Barselona'nın en ünlü caddesi.", 4.6, 120);
+        createPlace("Barceloneta Plajı", barselona, "Plaj", "Şehrin en popüler plajı.", 4.7, 180);
+        createPlace("Casa Batlló", barselona, "Tarih", "Gaudi'nin modernist eseri.", 4.8, 90);
+
+        // --- LONDRA ---
+        createPlace("London Eye", londra, "Manzara", "Şehir manzarasını görebileceğiniz dev dönme dolap.", 4.7, 60);
+        createPlace("British Museum", londra, "Müze", "Dünyanın en ünlü müzelerinden biri.", 4.9, 180);
+        createPlace("Tower Bridge", londra, "Tarih", "Londra'nın ikonik köprüsü.", 4.8, 90);
+        createPlace("Buckingham Sarayı", londra, "Tarih", "İngiliz kraliyet ailesinin resmi ikametgahı.", 4.7, 120);
+        createPlace("Hyde Park", londra, "Doğa", "Londra'nın en büyük parklarından biri.", 4.6, 120);
+        createPlace("Camden Town", londra, "Gezi", "Alternatif kültürün ve sokak pazarlarının merkezi.", 4.5, 120);
+        createPlace("Oxford Street", londra, "Alışveriş", "Avrupa'nın en yoğun alışveriş caddesi.", 4.6, 180);
+        createPlace("Natural History Museum", londra, "Müze", "Dinozorlar ve doğa tarihi koleksiyonlarıyla ünlü müze.", 4.8, 150);
+        createPlace("Notting Hill", londra, "Gezi", "Renkli evleriyle ünlü semt.", 4.7, 120);
+        createPlace("St. Paul's Cathedral", londra, "Tarih", "Londra'nın en ikonik katedrallerinden biri.", 4.8, 90);
+
+        System.out.println(">> Demo şehir ve mekan verileri yüklendi.");
     }
-    
+
     private void createUser() {
         User u = new User("Gezgin", "test@trueguiders.com", "123456");
         userRepository.save(u);
     }
-    
+
     private City createCity(String name, String country, String desc) {
         return cityRepository.save(new City(name, country, desc));
     }
-    
+
     private Place createPlace(String name, City city, String cat, String desc, Double rate, Integer dur) {
         Place p = new Place(name, city, cat, desc, dur);
         p.setRating(rate);
