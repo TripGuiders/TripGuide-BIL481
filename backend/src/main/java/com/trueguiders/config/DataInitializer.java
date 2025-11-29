@@ -50,16 +50,16 @@ public class DataInitializer implements CommandLineRunner {
 
         // --------- MEKANLAR ---------
         // --- ANTALYA ---
-        createPlace("Kaleiçi", antalya, "Tarih", "Eski şehir merkezi.", 4.8, 120);
-        createPlace("Düden Şelalesi", antalya, "Doğa", "Denize dökülen şelale.", 4.7, 60);
-        createPlace("Konyaaltı Plajı", antalya, "Plaj", "Ünlü sahil şeridi.", 4.6, 180);
-        createPlace("Antalya Müzesi", antalya, "Müze", "Roma dönemi eserleri.", 4.9, 90);
-        createPlace("Aspendos Tiyatrosu", antalya, "Tarih", "En iyi korunan antik tiyatro.", 4.9, 120);
-        createPlace("Perge Antik Kenti", antalya, "Tarih", "Stadyum ve sütunlu cadde.", 4.7, 120);
-        createPlace("Lara Plajı", antalya, "Plaj", "Kumsal ve lüks oteller.", 4.5, 180);
-        createPlace("Kurşunlu Şelalesi", antalya, "Doğa", "Tabiat parkı.", 4.4, 90);
-        createPlace("Tahtalı Dağı", antalya, "Doğa", "Teleferik ile zirveye çıkış.", 4.8, 150);
-        createPlace("Land of Legends", antalya, "Eğlence", "Tema parkı.", 4.7, 240);
+        createPlace("Kaleiçi", antalya, "Tarih", "Eski şehir merkezi.", 4.8, 240);
+        createPlace("Düden Şelalesi", antalya, "Doğa", "Denize dökülen şelale.", 4.7, 120);
+        createPlace("Konyaaltı Plajı", antalya, "Plaj", "Ünlü sahil şeridi.", 4.6, 240);
+        createPlace("Antalya Müzesi", antalya, "Müze", "Roma dönemi eserleri.", 4.9, 180);
+        createPlace("Aspendos Tiyatrosu", antalya, "Tarih", "En iyi korunan antik tiyatro.", 4.9, 240);
+        createPlace("Perge Antik Kenti", antalya, "Tarih", "Stadyum ve sütunlu cadde.", 4.7, 240);
+        createPlace("Lara Plajı", antalya, "Plaj", "Kumsal ve lüks oteller.", 4.5, 360);
+        createPlace("Kurşunlu Şelalesi", antalya, "Doğa", "Tabiat parkı.", 4.4, 180);
+        createPlace("Tahtalı Dağı", antalya, "Doğa", "Teleferik ile zirveye çıkış.", 4.8, 300);
+        createPlace("Land of Legends", antalya, "Eğlence", "Tema parkı.", 4.7, 300);
 
         // --- İSTANBUL ---
         createPlace("Ayasofya", istanbul, "Tarih", "Dünya mimarlık tarihi incisi.", 5.0, 90);
@@ -90,6 +90,11 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("Ihlara Vadisi", kapadokya, "Doğa", "Kanyon yürüyüşü.", 4.9, 180);
         createPlace("Derinkuyu Yeraltı Şehri", kapadokya, "Tarih", "Derin yeraltı şehri.", 4.7, 90);
         createPlace("Balon Turu", kapadokya, "Eğlence", "Gün doğumu balon keyfi.", 5.0, 180);
+        createPlace("Paşabağ Vadisi", kapadokya, "Doğa","Ünlü peri bacalarını yakından görebileceğiniz vadi.", 4.8, 120);
+        createPlace("Avanos Çanak Atölyeleri", kapadokya, "Gezi","Kızılırmak kenarında çanak-çömlek yapım atölyeleri.", 4.6, 120);
+        createPlace("Zelve Açık Hava Müzesi", kapadokya, "Tarih","Kayalara oyulmuş eski yerleşim alanı.", 4.7, 120);
+        createPlace("Aşk Vadisi", kapadokya, "Doğa","Manzarasıyla ünlü yürüyüş rotası.", 4.7, 150);
+        createPlace("Ürgüp Şarap Evleri", kapadokya, "Gezi","Yerel şarap tadımı yapabileceğiniz mekanlar.", 4.5, 120);
 
         // --- PARİS ---
         createPlace("Eyfel Kulesi", paris, "Manzara", "Paris'in simgesi.", 4.9, 120);
@@ -109,6 +114,11 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("Bodrum Marina", bodrum, "Gezi", "Restoranlar ve yat limanı ile ünlü.", 4.6, 90);
         createPlace("Türkbükü Sahili", bodrum, "Plaj", "Lüks beach clublarıyla ünlü sahil.", 4.7, 180);
         createPlace("Gümüşlük", bodrum, "Gezi", "Gün batımı ve balık restoranlarıyla ünlü köy.", 4.8, 150);
+        createPlace("Yahşi Plajı", bodrum, "Plaj","Daha sakin ve uzun bir sahil şeridi.", 4.6, 180);
+        createPlace("Bitez Sahili", bodrum, "Plaj","Rüzgar sörfü ve deniz keyfi için ideal.", 4.7, 180);
+        createPlace("Pedasa Antik Kenti", bodrum, "Tarih","Doğa yürüyüşüyle ulaşılabilen antik kalıntılar.", 4.5, 150);
+        createPlace("Bodrum Amfi Tiyatro", bodrum, "Tarih","Şehir manzaralı tarihi tiyatro.", 4.4, 90);
+        createPlace("Zeki Müren Sanat Müzesi", bodrum, "Müze","Ünlü sanatçının evinin müze hali.", 4.6, 90);
 
         // --- ROMA ---
         createPlace("Kolezyum", roma, "Tarih", "Roma'nın en ünlü amfitiyatrosu.", 5.0, 120);
@@ -116,6 +126,11 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("Piazza Navona", roma, "Gezi", "Barok tarzı meydan.", 4.8, 90);
         createPlace("Pantheon", roma, "Tarih", "Antik Roma'nın en iyi korunmuş tapınağı.", 4.9, 60);
         createPlace("Trevi Çeşmesi", roma, "Tarih", "Dilek fıskiyesi olarak bilinen ünlü çeşme.", 4.8, 45);
+        createPlace("Piazza di Spagna ve İspanyol Merdivenleri", roma, "Gezi","Ünlü merdivenler ve çevresindeki lüks mağazalar.", 4.7, 90);
+        createPlace("Trastevere Mahallesi", roma, "Gezi","Dar sokakları ve restoranlarıyla ünlü tarihi mahalle.", 4.8, 150);
+        createPlace("Villa Borghese Parkı", roma, "Doğa","Şehrin ortasında büyük bir park ve gölet.", 4.6, 120);
+        createPlace("Galleria Borghese", roma, "Müze","Heykel ve tablolarla dolu sanat galerisi.", 4.8, 120);
+        createPlace("Campo de' Fiori Pazarı", roma, "Alışveriş","Sebze, meyve ve yerel ürünlerin satıldığı pazar alanı.", 4.5, 90);
 
         // --- BARSELONA ---
         createPlace("Sagrada Familia", barselona, "Tarih", "Gaudi'nin yarım kalmış şaheseri.", 5.0, 120);
@@ -123,6 +138,11 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("La Rambla", barselona, "Gezi", "Barselona'nın en ünlü caddesi.", 4.6, 120);
         createPlace("Barceloneta Plajı", barselona, "Plaj", "Şehrin en popüler plajı.", 4.7, 180);
         createPlace("Casa Batlló", barselona, "Tarih", "Gaudi'nin modernist eseri.", 4.8, 90);
+        createPlace("Gothic Quarter (Barri Gòtic)", barselona, "Gezi","Dar sokakları ve tarihi binalarıyla eski şehir.", 4.7, 150);
+        createPlace("Camp Nou Stadyumu", barselona, "Gezi","FC Barcelona'nın efsanevi stadyumu ve müzesi.", 4.7, 150);
+        createPlace("Montjuïc Tepesi", barselona, "Manzara","Şehre panoramik bakış sunan tepe ve kaleler.", 4.6, 150);
+        createPlace("Poble Espanyol", barselona, "Gezi","İspanya'nın farklı bölgelerinden mimari örnekler içeren açık hava müzesi.", 4.5, 120);
+        createPlace("La Boqueria Pazarı", barselona, "Alışveriş","Renkli yiyecek pazarı, tapas ve deniz ürünleri.", 4.7, 90);
 
         // --- LONDRA ---
         createPlace("London Eye", londra, "Manzara", "Şehir manzarasını görebileceğiniz dev dönme dolap.", 4.7, 60);
@@ -135,6 +155,24 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("Natural History Museum", londra, "Müze", "Dinozorlar ve doğa tarihi koleksiyonlarıyla ünlü müze.", 4.8, 150);
         createPlace("Notting Hill", londra, "Gezi", "Renkli evleriyle ünlü semt.", 4.7, 120);
         createPlace("St. Paul's Cathedral", londra, "Tarih", "Londra'nın en ikonik katedrallerinden biri.", 4.8, 90);
+        // --- ARTVİN ---
+        createPlace("Karagöl Sahara Milli Parkı", artvin, "Doğa","Göl ve orman manzaralı milli park.", 4.9, 180);
+        createPlace("Borçka Karagöl", artvin, "Doğa", "Türkiye'nin en güzel göllerinden biri.", 4.9, 180);
+        createPlace("Çifte Köprüler", artvin, "Tarih","Fırtına Deresi üzerindeki tarihi taş köprüler.", 4.7, 60);
+        createPlace("Mençuna Şelalesi", artvin, "Doğa","Yürüyüş parkuru ile ulaşılan yüksek şelale.", 4.8, 150);
+        createPlace("Artvin Kalesi", artvin, "Tarih","Şehir manzaralı tarihi kale.", 4.5, 90);
+        // --- KONYA ---
+        createPlace("Mevlana Müzesi", konya, "Müze","Mevlana Celaleddin Rumi'nin türbesi ve müzesi.", 4.9, 120);
+        createPlace("Alaeddin Tepesi ve Camii", konya, "Tarih","Selçuklu döneminden kalma cami ve park.", 4.6, 90);
+        createPlace("İnce Minare Medresesi", konya, "Tarih","Taç kapısıyla ünlü tarihi medrese.", 4.6, 90);
+        createPlace("Sille Köyü", konya, "Gezi","Tarihi Rum evleri ve kiliseleriyle eski yerleşim.", 4.7, 150);
+        createPlace("Kelebekler Vadisi Konya Tropikal Bahçe", konya, "Doğa","Kapalı tropikal kelebek bahçesi.", 4.5, 90);
+        // --- ÇANAKKALE ---
+        createPlace("Troya Antik Kenti", canakkale, "Tarih","UNESCO listesindeki efsanevi Troya şehri.", 4.8, 150);
+        createPlace("Çanakkale Şehitler Abidesi", canakkale, "Tarih","Çanakkale Savaşı anısına yapılmış anıt.", 4.9, 120);
+        createPlace("Kilidülbahir Kalesi", canakkale, "Tarih","Boğazı koruyan tarihi kale.", 4.6, 90);
+        createPlace("Aynalı Çarşı", canakkale, "Alışveriş","Tarihi çarşı, hediyelik eşya dükkanları.", 4.5, 60);
+        createPlace("Gelibolu Yarımadası Tabiat Parkı", canakkale, "Doğa","Savaş alanları ve doğa yürüyüş rotaları.", 4.7, 180);
 
         System.out.println(">> Demo şehir ve mekan verileri yüklendi.");
     }
