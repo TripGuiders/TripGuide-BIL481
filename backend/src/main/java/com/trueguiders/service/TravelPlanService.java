@@ -161,7 +161,7 @@ public class TravelPlanService {
         // Aynı yeri iki kere önermemek için kalan mekan listesi
         List<Place> remaining = new ArrayList<>(places);
 
-        // Bir gün için toplam süre (dakika) – 9:00–21:00 arası ~ 8 saat kabul ettim
+        // Bir gün için toplam süre (dakika) – 10:00–20:00 arası ~ 8 saat kabul ettim
         int minutesPerDay = 8 * 60;
 
         for (int day = 1; day <= days; day++) {
@@ -173,7 +173,7 @@ public class TravelPlanService {
             if (todaysPlaces.isEmpty()) break;
 
             List<ActivityDTO> dailyActivities = new ArrayList<>();
-            int hour = 9; // 09:00'dan başla
+            int hour = 10; // 10:00'dan başla
 
             for (int i = 0; i < todaysPlaces.size(); i++) {
                 Place place = todaysPlaces.get(i);
@@ -207,7 +207,7 @@ public class TravelPlanService {
                 ));
 
                 hour += durationHours + 1; // 1 saat ara
-                if (hour >= 21) break;
+                if (hour >= 19) break;
             }
 
             if (!dailyActivities.isEmpty()) {
