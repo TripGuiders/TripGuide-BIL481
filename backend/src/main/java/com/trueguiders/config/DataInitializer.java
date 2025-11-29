@@ -47,6 +47,8 @@ public class DataInitializer implements CommandLineRunner {
         City roma       = createCity("Roma",       "İtalya",  "Antik dünyanın kalbi, tarihin başkenti.");
         City barselona  = createCity("Barselona",  "İspanya", "Gaudi mimarisi ve sahilleriyle ünlü şehir.");
         City londra     = createCity("Londra",     "Birleşik Krallık", "Dünyanın en kozmopolit şehirlerinden biri.");
+        City atina = createCity("Atina", "Yunanistan", "Antik Yunan’ın kalbi ve Akropolis'in evi.");
+        City girit = createCity("Girit", "Yunanistan", "Mitolojinin ve doğal güzelliklerin adası, Yunanistan’ın en büyük adası.");
 
         // --------- MEKANLAR ---------
         // --- ANTALYA ---
@@ -173,6 +175,99 @@ public class DataInitializer implements CommandLineRunner {
         createPlace("Kilidülbahir Kalesi", canakkale, "Tarih","Boğazı koruyan tarihi kale.", 4.6, 90);
         createPlace("Aynalı Çarşı", canakkale, "Alışveriş","Tarihi çarşı, hediyelik eşya dükkanları.", 4.5, 60);
         createPlace("Gelibolu Yarımadası Tabiat Parkı", canakkale, "Doğa","Savaş alanları ve doğa yürüyüş rotaları.", 4.7, 180);
+        // --- BERLİN ---
+        createPlace("Brandenburg Kapısı", berlin, "Tarih", "Berlin’in simgesi olan zafer kapısı.", 4.8, 60);
+        createPlace("Reichstag Binası", berlin, "Tarih", "Alman parlamentosu ve cam kubbesiyle modern mimari harikası.", 4.9, 120);
+        createPlace("Berlin Duvarı – East Side Gallery", berlin, "Tarih", "Graffitilerle kaplı Berlin Duvarı'nın en uzun korunmuş kısmı.", 4.7, 90);
+        createPlace("Museum Island", berlin, "Müze", "UNESCO listesindeki müzeler kompleksi.", 5.0, 180);
+        createPlace("Berlin Katedrali (Berliner Dom)", berlin, "Tarih", "Görkemli iç mimarisi ve kubbe manzarasıyla ünlü katedral.", 4.8, 90);
+        createPlace("Checkpoint Charlie", berlin, "Tarih", "Soğuk Savaş döneminin en ünlü sınır kapısı.", 4.5, 60);
+        createPlace("Holokost Anıtı", berlin, "Tarih", "Savaş kurbanlarına adanmış etkileyici açık hava anıtı.", 4.9, 60);
+        createPlace("Tiergarten Parkı", berlin, "Doğa", "Şehrin merkezinde devasa bir doğal yürüyüş alanı.", 4.7, 120);
+        createPlace("Alexanderplatz", berlin, "Gezi", "TV Kulesi, alışveriş ve meydan aktiviteleriyle Berlin’in merkezi.", 4.6, 120);
+        // --- KİLİS ---
+        createPlace("Ravanda Kalesi",           kilis, "Tarih",     "Vadinin hâkim noktasında yer alan tarihi Orta Çağ kalesi.",     4.7, 120);
+        createPlace("Kilis Ulu Camii",          kilis, "Tarih",     "16. yüzyıldan kalma tarihi cami.",                               4.5, 60);
+        createPlace("Kilis Müzesi",             kilis, "Müze",      "Bölgenin arkeolojik ve etnografik eserlerini barındırır.",       4.4, 90);
+        createPlace("Tarihi Kilis Çarşısı",     kilis, "Alışveriş", "Baharatçılar, bakırcılar ve yerel lezzetlerle dolu sokaklar.",   4.6, 120);
+        createPlace("Oylum Höyük",              kilis, "Tarih",     "Kilis ve çevresinin en eski yerleşim alanlarından biri.",         4.3, 90);
+        createPlace("Şehitler Parkı",           kilis, "Doğa",      "Şehir merkezine yakın dinlenme ve yürüyüş alanı.",                4.2, 60);
+        createPlace("Musabeyli Yaylası",        kilis, "Doğa",      "Serin havası ve piknik alanlarıyla yaz kaçamağı noktası.",        4.4, 180);
+        createPlace("Katmerci Sokağı",          kilis, "Gezi",      "Kilis katmeri ve yöresel tatlılar için ünlü sokak.",              4.8, 90);
+        createPlace("Cumhuriyet Meydanı",       kilis, "Gezi",      "Şehrin kalbi, kısa yürüyüşler ve fotoğraf molası için ideal.",    4.1, 45);
+        // --- ATİNA ---
+        createPlace("Akropolis", atina, "Tarih", 
+        "Atina'nın tepesinde yer alan antik şehir kompleksi.", 5.0, 180);
+
+        createPlace("Parthenon Tapınağı", atina, "Tarih", 
+        "Tanrıça Athena'ya adanmış ikonik tapınak.", 4.9, 120);
+
+        createPlace("Akropolis Müzesi", atina, "Müze", 
+        "Dünyanın en önemli antik eser koleksiyonlarından biri.", 4.9, 150);
+
+        createPlace("Antik Agora", atina, "Tarih", 
+        "Antik dönemin siyasi ve ticari merkezi.", 4.7, 120);
+
+        createPlace("Plaka Bölgesi", atina, "Gezi", 
+        "Dar sokakları, kafeleri ve tarihi dokusuyla ünlü mahalle.", 4.6, 90);
+
+        createPlace("Syntagma Meydanı", atina, "Gezi", 
+        "Parlamento binası ve asker değişimi ile ünlü meydan.", 4.5, 60);
+
+        createPlace("Ulusal Arkeoloji Müzesi", atina, "Müze", 
+        "Antik Yunan eserlerinin en büyük koleksiyonu.", 4.8, 180);
+
+        createPlace("Lycabettus Tepesi", atina, "Manzara", 
+        "Atina'nın en iyi panoramik manzarası.", 4.7, 90);
+
+        createPlace("Monastiraki Pazarı", atina, "Alışveriş", 
+        "Hediyelik eşya, vintage ürünler ve sokak lezzetleri.", 4.5, 120);
+
+        createPlace("Panathinaiko Stadyumu", atina, "Tarih", 
+        "İlk modern olimpiyatların yapıldığı mermer stadyum.", 4.7, 60);
+
+        createPlace("Zappeion Bahçeleri", atina, "Doğa", 
+        "Şehir içinde yemyeşil yürüyüş alanı.", 4.6, 60);
+
+        createPlace("Anafiotika Mahallesi", atina, "Gezi", 
+        "Beyaz evleriyle Santorini hissi veren bölge.", 4.7, 60);
+
+        // --- GİRİT ---
+        createPlace("Knossos Sarayı", girit, "Tarih", 
+        "Minos uygarlığının merkezi olan antik saray.", 4.8, 150);
+
+        createPlace("Samaria Kanyonu", girit, "Doğa", 
+        "Avrupa'nın en uzun kanyonlarından biri.", 4.9, 300);
+
+        createPlace("Balos Plajı", girit, "Plaj", 
+        "Turkuaz lagünü ile ünlü cennet plaj.", 4.9, 240);
+
+        createPlace("Elafonisi Plajı", girit, "Plaj", 
+        "Pembe kumlarıyla ünlü tropik plaj.", 4.8, 240);
+
+        createPlace("Heraklion Arkeoloji Müzesi", girit, "Müze", 
+        "Minos uygarlığına ait efsanevi eserler.", 4.9, 150);
+
+        createPlace("Rethymno Eski Şehir", girit, "Gezi", 
+        "Venedik mimarisi ve dar sokaklarıyla tarihi merkez.", 4.7, 120);
+
+        createPlace("Chania Eski Limanı", girit, "Gezi", 
+        "Tarihi liman, restoranlar ve Akdeniz manzarası.", 4.8, 90);
+
+        createPlace("Spinalonga Adası", girit, "Tarih", 
+        "Terk edilmiş kale ve eski cüzzam kolonisi.", 4.6, 180);
+
+        createPlace("Knossos Arşivi", girit, "Müze", 
+        "Arkeolojik belgelerin ve kazı materyallerinin sergilendiği müze.", 4.5, 60);
+
+        createPlace("Preveli Manastırı", girit, "Tarih", 
+        "Efsanevi hikâyeleri olan deniz kenarı manastır.", 4.7, 90);
+
+        createPlace("Lake Kournas", girit, "Doğa", 
+        "Girit’in tek doğal tatlı su gölü.", 4.6, 120);
+
+        createPlace("Matala Plajı", girit, "Plaj", 
+        "Hippi mağaraları ve turkuaz deniziyle ünlü.", 4.7, 180);
 
         System.out.println(">> Demo şehir ve mekan verileri yüklendi.");
     }
