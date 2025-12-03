@@ -684,7 +684,7 @@
         // 2. Form Gönderimi ve Plan Oluşturma
         document.getElementById('tripForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const btn = this.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = 'Planlanıyor...';
@@ -718,16 +718,20 @@
                 });
 
                 if (!res.ok) throw new Error(await res.text());
-                
+
                 const data = await res.json();
-                
+
                 // Rotayı Ekrana Bas
                 renderItinerary(data, citySelect.options[citySelect.selectedIndex].text);
-                
+
                 // Görünüm Ayarları
                 document.getElementById('itinerary').style.display = 'block';
                 setTimeout(() => {
                     document.getElementById('itinerary').scrollIntoView({behavior: 'smooth'});
+
+                    setTimeout(() => {
+                        alert("Planınız başarıyla kaydedildi.");
+                    }, 2000);
                 }, 500);
 
             } catch (err) {
@@ -758,9 +762,9 @@
             let contentHtml = `<div class="day-content">`;
             Object.entries(data.itinerary).forEach(([day, activities], index) => {
                 const activeClass = index === 0 ? 'active' : '';
-                
+
                 contentHtml += `<div id="day${day}" class="day-content-item ${activeClass} day-plan">`;
-                
+
                 if (activities.length === 0) {
                     contentHtml += `<p style="text-align:center; padding:20px; color:#666;">Bugün için plan bulunamadı.</p>`;
                 } else {
@@ -777,7 +781,7 @@
                                     </div>
                                     <p style="margin-top:5px; color:#666; font-size:14px;">${act.description || 'Harika bir durak noktası.'}</p>
                                     <div style="margin-top:10px; font-size:13px; color:var(--secondary);">
-                                        <i class="fas fa-tag"></i> ${act.category} &nbsp; 
+                                        <i class="fas fa-tag"></i> ${act.category} &nbsp;
                                         <i class="fas fa-star"></i> ${act.rating || '-'}
                                     </div>
                                 </div>
@@ -790,7 +794,7 @@
             contentHtml += `</div>`;
 
             container.innerHTML = tabsHtml + contentHtml;
-            
+
             // AOS kütüphanesini yeni eklenen elemanlar için yenile
             setTimeout(() => AOS.refresh(), 100);
         }
@@ -815,9 +819,10 @@
             // İçerikleri güncelle
             const contents = document.querySelectorAll('.day-content-item');
             contents.forEach(c => c.classList.remove('active'));
-            
+
             const target = document.getElementById(`day${dayNumber}`);
             if(target) target.classList.add('active');
+
         }
 
         // 5. Modal İşlemleri
@@ -835,6 +840,8 @@
         window.onclick = function(event) {
             if (event.target == document.getElementById('reviewModal')) closeReviewModal();
         }
+
+
 
         // Yorum Gönderme
         document.getElementById('reviewForm').addEventListener('submit', async function(e) {
