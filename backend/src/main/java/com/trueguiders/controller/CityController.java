@@ -31,8 +31,3 @@ public class CityController {
         return ResponseEntity.ok(cityService.getCityByName(name));
     }
 }
-
-
-
-
-

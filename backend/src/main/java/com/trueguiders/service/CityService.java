@@ -18,7 +18,7 @@ public class CityService {
     }
     
     public City getCityByName(String name) {
-        return cityRepository.findByNameIgnoreCase(name)
+        return cityRepository.findByName(name)
             .orElseThrow(() -> new RuntimeException("Şehir bulunamadı: " + name));
     }
     
