@@ -16,6 +16,7 @@ com/trueguiders/TrueguidersApplication.class
 com/trueguiders/service/TravelPlanService.class
 com/trueguiders/dto/TravelPlanRequest.class
 com/trueguiders/service/CityService.class
+com/trueguiders/config/DataInitializer.class
 com/trueguiders/dto/TravelPlanResponse.class
 com/trueguiders/model/City.class
 com/trueguiders/controller/CityController.class
